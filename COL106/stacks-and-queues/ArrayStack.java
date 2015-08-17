@@ -53,3 +53,11 @@ class ArrayStack<E> implements Stack<E>
 		}
 	}
 }
+
+class EmptyStackException extends Exception
+{
+	public EmptyStackException()
+	{
+	
+	}
+}
