@@ -55,3 +55,11 @@ class ArrayQueue<E> implements Queue<E>
 		}
 	}
 }
+
+class EmptyQueueException extends Exception
+{
+	public EmptyQueueException()
+	{
+	
+	}
+}
