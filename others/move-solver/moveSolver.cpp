@@ -130,7 +130,7 @@ bool MoveSolver::getState(const char a[][maxSize+1], char b[][maxSize+1], Move_t
                             else
                             {
                                 b[i][j]=b[i][j-1];
-                                b[i][j]='.';
+                                b[i][j-1]='.';
                                 change=true;
                             }
                     break;
@@ -159,19 +159,27 @@ void MoveSolver::backTrack(string &str)
         solution.push(state.Move);
         state=data[state.from];
     }
+    char current[maxSize][maxSize+1],next[maxSize][maxSize+1];
+    if(debug)
+        fromString(toString(tokens),current);
     printf("  Move sequence is: ");
     while(!solution.empty())
     {
         switch(solution.top())
         {
-            case Up:    printf(" Up -> ");     break;
-            case Down:  printf(" Down -> ");   break;
-            case Left:  printf(" Left -> ");   break;
-            case Right: printf(" Right -> ");  break;
+            case Up:    printf(" up ");     break;
+            case Down:  printf(" down ");   break;
+            case Left:  printf(" left ");   break;
+            case Right: printf(" right ");  break;
+        }
+        if(debug)
+        {
+            puts("");
+            getState(current,next,solution.top());
+            fromString(toString(next),current);
         }
         solution.pop();
     }
-    printf("!!!\n");
 }
 
 void MoveSolver::solve()
