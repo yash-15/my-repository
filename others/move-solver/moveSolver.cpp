@@ -167,10 +167,10 @@ void MoveSolver::backTrack(string &str)
     {
         switch(solution.top())
         {
-            case Up:    printf(" up ");     break;
-            case Down:  printf(" down ");   break;
-            case Left:  printf(" left ");   break;
-            case Right: printf(" right ");  break;
+            case Up:    printf(" Up -> ");     break;
+            case Down:  printf(" Down -> ");   break;
+            case Left:  printf(" Left -> ");   break;
+            case Right: printf(" Right -> ");  break;
         }
         if(debug)
         {
@@ -180,6 +180,7 @@ void MoveSolver::backTrack(string &str)
         }
         solution.pop();
     }
+    puts(" !!!");
 }
 
 void MoveSolver::solve()
