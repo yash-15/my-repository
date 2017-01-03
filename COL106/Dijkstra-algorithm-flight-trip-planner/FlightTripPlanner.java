@@ -12,7 +12,7 @@
 import java.util.*;
 import java.io.*;
 
-public class me1130742
+public class FlightTripPlanner
 {	
 	public static void main(String[] args) 
 	{
