@@ -42,7 +42,7 @@ void align(int i){
 	for(int rt=0;y[i][0]+rt<M;rt++){
 		pos=inf;
 		for(int j=1;j<=y[i][0];j++)
-			pos=min(pos,mn[j]-base[j]-1);
+			pos=min(pos,mn[j]-base[j+rt]-1);
 		if(pos>act){
 			act=pos;
 			dy=rt;
