@@ -4,8 +4,9 @@ using namespace std;
 #define N 225005
 int M =0;
 #define inf 10000000
-vector < int> base;
-vector < vector<int> > x,y,g;
+vector < int> base,col;
+vector < vector<int> > x0,y57,x,y,g;
+vector < pair<int,int> > srt;
 int X,Y;
 void rotate(int i){
 	int n=x[i].size();
@@ -35,7 +36,7 @@ void push(int i, int val){
 void fix(int i){
 	int n=x[i].size()-1;
 	for(int j=1;j<=n;j++){
-		g[x[i][j]][y[i][j]]=i;
+		g[x[i][j]][y[i][j]]=col[i];
 		base[y[i][j]]=max(base[y[i][j]],x[i][j]);
 		X=max(X,x[i][j]);
 		Y=max(Y,y[i][j]);
@@ -101,19 +102,32 @@ int solve(){
 int main(){
 	int n,sz;
 	scanf("%d",&n);
-	x.resize(n+1);
-	y.resize(n+1);
+	x0.resize(n+1);
+	y57.resize(n+1);
+	srt.resize(n+1);
+	col.resize(n+1);
+	srt[0]=make_pair(0,0);
 	X=Y=0;
 	for(int i=1;i<=n;i++){
 		scanf("%d",&sz);
-		x[i].resize(sz+1);
-		y[i].resize(sz+1);
+		x0[i].resize(sz+1);
+		y57[i].resize(sz+1);
 		for(int j=1;j<=sz;j++){
-			scanf("%d%d",&x[i][j],&y[i][j]);
-			x[i][0]=max(x[i][0],x[i][j]);
-			y[i][0]=max(y[i][0],y[i][j]);
+			scanf("%d%d",&x0[i][j],&y57[i][j]);
+			x0[i][0]=max(x0[i][0],x0[i][j]);
+			y57[i][0]=max(y57[i][0],y57[i][j]);
 		}
-		M=max(M,max(x[i][0],y[i][0]));
+		srt[i]=make_pair(sz,i);
+		M=max(M,max(x0[i][0],y57[i][0]));
+	}
+	sort(srt.begin(), srt.end());
+	x.resize(n+1);
+	y.resize(n+1);
+
+	for(int i=1;i<=n;i++){
+		x[n+1-i]=x0[srt[i].second];
+		y[n+1-i]=y57[srt[i].second];
+		col[n+1-i]=i;
 	}
 	int m0=M,ans=inf,idx=0;
 	for(M=m0;M<=2*m0;M++){
