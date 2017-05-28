@@ -6,7 +6,7 @@ int M =0;
 #define inf 10000000
 vector < int> base,col;
 vector < vector<int> > x0,y57,x,y,g;
-vector < pair<int,int> > srt;
+vector < pair< pair<int,int> ,int> > srt;
 int X,Y;
 void rotate(int i){
 	int n=x[i].size();
@@ -44,7 +44,7 @@ void fix(int i){
 }
 
 void align(int i){
-	int n=x[i].size()-1,pos,ht,cmp=inf+inf,act=0,dy=0,rot=0;
+	int n=x[i].size()-1,pos,ht,cmp=inf*100,ht0,cmp0=inf,act=0,dy=0,rot=0;
 	vector<int> mn;
 	for(int c=0;c<4;c++){
 		pull(i,inf);
@@ -56,13 +56,15 @@ void align(int i){
 			pos=inf+inf;ht=0;
 			for(int j=1;j<=y[i][0];j++)
 				pos=min(pos,mn[j]-base[j+rt]-1);
-
-			ht=x[i][0]-pos;
-			if(ht<cmp){
+			for(int j=1;j<=y[i][0];j++)
+				ht+=x[i][j]-pos;
+			ht0=x[i][0]-pos;
+			if(ht0<cmp0 || (ht0==cmp0 && ht<cmp)){
 				act=pos;
 				dy=rt;
 				rot=c;
 				cmp=ht;
+				cmp0=ht0;
 			}
 		}
 		push(i,inf);
@@ -106,7 +108,7 @@ int main(){
 	y57.resize(n+1);
 	srt.resize(n+1);
 	col.resize(n+1);
-	srt[0]=make_pair(0,0);
+	srt[0]=make_pair(make_pair(0,0),0);
 	X=Y=0;
 	for(int i=1;i<=n;i++){
 		scanf("%d",&sz);
@@ -117,7 +119,7 @@ int main(){
 			x0[i][0]=max(x0[i][0],x0[i][j]);
 			y57[i][0]=max(y57[i][0],y57[i][j]);
 		}
-		srt[i]=make_pair(sz,i);
+		srt[i]=make_pair(make_pair(y57[i][0],-sz),i);
 		M=max(M,max(x0[i][0],y57[i][0]));
 	}
 	sort(srt.begin(), srt.end());
@@ -127,7 +129,7 @@ int main(){
 	for(int i=1;i<=n;i++){
 		x[n+1-i]=x0[srt[i].second];
 		y[n+1-i]=y57[srt[i].second];
-		col[n+1-i]=i;
+		col[n+1-i]=srt[i].second;
 	}
 	int m0=M,ans=inf,idx=0;
 	for(M=m0;M<=2*m0;M++){
