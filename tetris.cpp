@@ -32,6 +32,16 @@ void push(int i, int val){
 	move(i,-val,0);
 }
 
+void fix(int i){
+	int n=x[i].size()-1;
+	for(int j=1;j<=n;j++){
+		g[x[i][j]][y[i][j]]=i;
+		base[y[i][j]]=max(base[y[i][j]],x[i][j]);
+		X=max(X,x[i][j]);
+		Y=max(Y,y[i][j]);
+	}
+}
+
 void align(int i){
 	int n=x[i].size()-1,pos,ht,cmp=inf+inf,act=0,dy=0,rot=0;
 	vector<int> mn;
@@ -61,22 +71,31 @@ void align(int i){
 	while(rot--)
 		rotate(i);
 	move(i,inf-act,dy);
+	fix(i);
+	move(i,act-inf,-dy);
 }
 
-void fix(int i){
-	int n=x[i].size()-1;
-	for(int j=1;j<=n;j++){
-		g[x[i][j]][y[i][j]]=i;
-		base[y[i][j]]=max(base[y[i][j]],x[i][j]);
-		X=max(X,x[i][j]);
-		Y=max(Y,y[i][j]);
-	}
-}
 
 void show(){
 	for(int i=1;i<=X;i++,puts(""))
 		for(int j=1;j<=Y;j++)
 			printf("%d ",g[i][j]);
+}
+
+int solve(){
+	int n =x.size()-1;
+	X=Y=0;
+	g.clear();
+	base.clear();
+	g.resize(M*n+1);
+	base.resize(M+1);
+	for(int i=0;i<g.size();i++)
+		g[i].resize(M+1);
+	for(int i=1;i<=n;i++){
+		align(i);
+		// show();
+	}
+	return X*Y;
 }
 
 int main(){
@@ -96,15 +115,15 @@ int main(){
 		}
 		M=max(M,max(x[i][0],y[i][0]));
 	}
-	g.resize(M*n+1);
-	base.resize(M+1);
-	for(int i=0;i<g.size();i++)
-		g[i].resize(M+1);
-	for(int i=1;i<=n;i++){
-		align(i);
-		fix(i);
-		// show();
+	int m0=M,ans=inf,idx=0;
+	for(M=m0;M<=2*m0;M++){
+		if(solve()<ans){
+			idx=M;
+			ans=X*Y;
+		}
 	}
+	M=idx;
+	solve();
 	cout<<X<<" "<<Y<<"\n";
 	show();
 }
