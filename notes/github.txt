@@ -1,0 +1,21 @@
+git
+===
+
+#1. remove proxy settings in git
+
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+
+#2. add proxy settings in git
+
+git config --global http.proxy 10.10.78.22:3128
+git config --global https.proxy 10.10.78.22:3128
+
+#3. setting sublime as default editor in commits
+
+git config --global core.editor 'subl "$(cygpath -m "$1")" -w #'
+# http://stackoverflow.com/questions/32081685
+
+#4. Viewing commits tree
+
+git log --graph --oneline

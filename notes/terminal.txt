@@ -1,0 +1,21 @@
+## proxy settings terminal
+
+unset http_proxy
+unset https_proxy
+
+export http_proxy=http://10.10.78.22:3128
+export https_proxy=https://10.10.78.22:3128
+
+
+## refresh apt-get cache
+
+sudo apt-get clean
+cd /var/lib/apt
+sudo mv lists lists.old
+sudo mkdir -p lists/partial
+sudo apt-get clean
+sudo apt-get update
+
+## update sources
+
+sudo subl /etc/apt/sources.list
